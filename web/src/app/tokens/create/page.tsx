@@ -139,7 +139,7 @@ export default function CreateTokenPage() {
           className="w-full bg-slate-900 hover:bg-blue-600 py-7 rounded-2xl font-black uppercase tracking-wider shadow-lg shadow-slate-200 transition-all active:scale-95" 
           type="submit"
         >
-          Confirm Minting
+          Confirm Token
         </Button>
       </form>
     </div>
