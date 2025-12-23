@@ -15,7 +15,8 @@ import {
   Loader2,
   Clock,
   UserPlus,
-  ExternalLink
+  ChevronsRight, // Added for the flow arrows
+  Box
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -87,21 +88,53 @@ export default function LandingPage() {
     );
   }
 
-  // --- RENDERING LOGIC ---
-
   return (
     <div className="flex flex-col min-h-[calc(100vh-64px)]">
       <section className="flex-1 flex flex-col items-center justify-center px-4 py-12 bg-slate-50/50">
         
         {/* VIEW 1: DISCONNECTED */}
         {!isConnected && (
-          <div className="max-w-4xl w-full text-center space-y-8 animate-in fade-in duration-700">
-            <h1 className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.8] uppercase">
-              SUPPLY<br/><span className="text-blue-600">CHAIN</span> TRACKER
-            </h1>
-            <p className="max-w-xl mx-auto text-slate-500 text-lg font-medium">
-              Verifique la procedencia y asegure transferencias con tecnología blockchain inmutable.
-            </p>
+          <div className="max-w-4xl w-full text-center space-y-12 animate-in fade-in duration-700">
+            <div className="space-y-6">
+              <h4 className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.8] uppercase">
+                SUPPLY<span className="text-blue-600">CHAIN</span> TRACKER
+              </h4>
+              <p className="max-w-xl mx-auto text-slate-500 text-lg font-medium">
+                DApp para gestionar trazabilidad en cadenas de suministro de productos y sus usuarios.
+              </p>
+            </div>
+
+            {/* --- NEW FLOW SEQUENCE SECTION --- */}
+            <div className="flex items-center justify-center gap-2 md:gap-4 py-8">
+              {[
+                { label: "Producer", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-50" },
+                { label: "Factory", icon: Factory, color: "text-blue-500", bg: "bg-blue-50" },
+                { label: "Retailer", icon: Store, color: "text-amber-500", bg: "bg-amber-50" },
+                { label: "Consumer", icon: User, color: "text-slate-500", bg: "bg-slate-50" },
+              ].map((step, index, arr) => (
+                <div key={step.label} className="flex items-center">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className={`${step.bg} p-3 rounded-xl border border-slate-100 shadow-sm`}>
+                      <step.icon className={`w-5 h-5 md:w-6 md:h-6 ${step.color}`} />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                      {step.label}
+                    </span>
+                  </div>
+                  {index < arr.length - 1 && (
+                    <ChevronsRight className="w-4 h-4 text-slate-300 mx-1 md:mx-2 mt-[-15px]" />
+                  )}
+                  {index < arr.length - 1 && (
+                    <Box className="w-4 h-4 text-slate-300 mx-1 md:mx-2 mt-[-15px]" />
+                  )}
+                   {index < arr.length - 1 && (
+                    <ChevronsRight className="w-4 h-4 text-slate-300 mx-1 md:mx-2 mt-[-15px]" />
+                  )}
+                </div>
+              ))}
+            </div>
+            {/* ------------------------------- */}
+
             <div className="flex justify-center pt-4">
               <Button onClick={connect} size="lg" className="bg-slate-900 hover:bg-blue-600 text-white px-10 py-8 rounded-2xl text-xl font-bold shadow-2xl transition-all">
                 Connect Wallet to Start
@@ -111,7 +144,7 @@ export default function LandingPage() {
           </div>
         )}
 
-        {/* VIEW 2: REGISTER FORM (Shown if userInfo is null OR id is 0) */}
+        {/* VIEW 2: REGISTER FORM */}
         {isConnected && !isAdmin && (!userInfo || userInfo.id === 0) && (
           <div className="w-full flex justify-center animate-in zoom-in-95 duration-500">
             <Card className="w-full max-w-md border-none shadow-2xl bg-white rounded-[2.5rem] overflow-hidden">
@@ -154,7 +187,7 @@ export default function LandingPage() {
           </div>
         )}
 
-        {/* VIEW 3: PENDING APPROVAL (Shown only if registered (id > 0) but not approved (status != 1)) */}
+        {/* VIEW 3: PENDING APPROVAL */}
         {isConnected && !isAdmin && userInfo && userInfo.id !== 0 && userInfo.status !== 1 && (
           <div className="max-w-md w-full bg-white p-12 rounded-[2.5rem] shadow-xl border border-slate-100 text-center space-y-8 animate-in slide-in-from-bottom-4 duration-500">
             <div className="relative mx-auto w-20 h-20">
