@@ -1,13 +1,12 @@
 import { TokenData } from "@/lib/web3";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
-import { ArrowRight, Package } from "lucide-react"; // Added Package icon
+import { ArrowRight, Package, Info } from "lucide-react"; // Added Info icon
 
 interface TokenCardProps {
   token: TokenData;
   userBalance?: number;
   onTransferClick?: (tokenId: number) => void;
-  // Change showAction to showTransferButton to match your TokensPage logic
   showTransferButton: boolean; 
 }
 
@@ -21,7 +20,6 @@ export default function TokenCard({
     <Card className="border-slate-200 hover:shadow-md transition-shadow">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center gap-2">
-          {/* Dark Icon as requested */}
           <Package className="h-4 w-4 text-slate-900" />
           <CardTitle className="text-sm font-medium text-slate-900">
             Token #{token.id}
@@ -37,6 +35,8 @@ export default function TokenCard({
         <p className="text-xs text-slate-500 mt-1">
           Total Supply: {token.totalSupply}
         </p>
+
+       
         
         {userBalance !== undefined && (
           <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-100 text-center">
@@ -51,11 +51,26 @@ export default function TokenCard({
 
         {token.parentId > 0 && (
           <div className="mt-2 text-[10px] bg-blue-50 text-blue-700 px-2 py-1 rounded inline-block font-medium">
-            Derived from Token #{token.parentId}
+            Derived from:  Token #{token.parentId}
           </div>
         )}
 
-        {/* --- ROLE BASED ACTION LOGIC --- */}
+         {/* --- ADDED FEATURES FIELD --- */}
+        {token.features && (
+          <div className="mt-3">
+            <div className="flex items-center gap-1 mb-1">
+              <Info className="h-3 w-3 text-slate-400" />
+              <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+                Technical Features
+              </span>
+            </div>
+            <p className="text-xs text-slate-600 bg-slate-50 p-2 rounded border border-slate-100 leading-relaxed">
+              {token.features.toString()}
+            </p>
+          </div>
+        )}
+        {/* ---------------------------- */}
+
         <div className="mt-4">
           {showTransferButton && onTransferClick ? (
             <Button 

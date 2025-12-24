@@ -10,13 +10,14 @@ import {
   Store, 
   User, 
   Settings,
-  LogOut
+  LogOut,
+  ChevronsRight // Used for the sequence arrows
 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function Header() {
-  const { account, connect, disconnect, role, isConnected, isAdmin } = useWallet();
+  const { account, connect, disconnect, role, isConnected, isAdmin, status } = useWallet();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -29,7 +30,6 @@ export default function Header() {
     router.push("/");
   };
 
-  // Logic for Role Icons
   const getRoleIcon = () => {
     if (isAdmin) return <Settings className="w-3 h-3" />;
     const r = role?.toLowerCase();
@@ -59,7 +59,7 @@ export default function Header() {
 
       <div className="container mx-auto px-4 h-16 flex items-center justify-between relative z-10">
         
-        {/* Left Section: Branding & Navigation */}
+        {/* Left Section: Branding & Navigation (Original) */}
         <div className="flex items-center gap-8">
           <div 
             className="flex items-center gap-3 cursor-pointer group" 
@@ -82,7 +82,6 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Navigation Links (Desktop) */}
           {isConnected && (
             <nav className="hidden lg:flex items-center gap-1 border-l pl-6 ml-2 border-slate-100">
               {isAdmin ? (
@@ -108,12 +107,39 @@ export default function Header() {
           )}
         </div>
 
-        {/* Right Section: User / Wallet Area */}
+        {/* --- CENTER: NEW FLOW SEQUENCE SECTION (Visible only if Approved & Connected) --- */}
+        {isConnected && status === 1 && !isAdmin && (
+          <div className="hidden xl:flex items-center justify-center gap-4 flex-1">
+            {[
+              { label: "Producer", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-50" },
+              { label: "Factory", icon: Factory, color: "text-blue-500", bg: "bg-blue-50" },
+              { label: "Retailer", icon: Store, color: "text-amber-500", bg: "bg-amber-50" },
+              { label: "Consumer", icon: User, color: "text-slate-500", bg: "bg-slate-50" },
+            ].map((step, index, arr) => {
+              const isActive = role?.toLowerCase() === step.label.toLowerCase();
+              return (
+                <div key={step.label} className="flex items-center">
+                  <div className={`flex flex-col items-center gap-1 transition-all ${isActive ? 'scale-105' : 'opacity-25 grayscale'}`}>
+                    <div className={`${isActive ? step.bg : 'bg-slate-50'} p-2 rounded-xl border border-slate-100 shadow-sm`}>
+                      <step.icon className={`w-4 h-4 ${isActive ? step.color : 'text-slate-400'}`} />
+                    </div>
+                    <span className={`text-[8px] font-bold uppercase tracking-widest ${isActive ? 'text-slate-900' : 'text-slate-400'}`}>
+                      {step.label}
+                    </span>
+                  </div>
+                  {index < arr.length - 1 && (
+                    <ChevronsRight className="w-4 h-4 text-slate-200 mx-2 mb-4" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Right Section: User / Wallet Area (Original) */}
         <div className="flex items-center gap-4">
           {isConnected && account ? (
             <div className="flex items-center gap-4">
-              
-              {/* Role Badge with Icon */}
               <div className="flex flex-col items-end hidden sm:flex">
                 <span className="text-[9px] text-slate-400 font-bold uppercase mb-1 tracking-tighter">Authorization</span>
                 <span className="flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-md text-[10px] font-black uppercase shadow-sm">
@@ -124,7 +150,6 @@ export default function Header() {
 
               <div className="h-8 w-[1px] bg-slate-100 hidden sm:block" />
               
-              {/* Network Identity */}
               <div className="flex flex-col items-end">
                 <span className="text-[9px] text-slate-400 font-bold uppercase mb-1 tracking-tighter">Network Identity</span>
                 <span className="text-xs font-mono text-slate-900 font-semibold bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
@@ -132,7 +157,6 @@ export default function Header() {
                 </span>
               </div>
 
-              {/* Restored Disconnect Label */}
               <Button 
                 variant="ghost" 
                 size="sm" 

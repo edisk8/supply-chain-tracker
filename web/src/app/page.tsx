@@ -148,12 +148,12 @@ export default function LandingPage() {
         {isConnected && !isAdmin && (!userInfo || userInfo.id === 0) && (
           <div className="w-full flex justify-center animate-in zoom-in-95 duration-500">
             <Card className="w-full max-w-md border-none shadow-2xl bg-white rounded-[2.5rem] overflow-hidden">
-              <div className="bg-slate-900 p-8 text-white">
+              <div className="bg-slate-900 p-6 text-white">
                 <div className="flex items-center gap-4 mb-2">
                   <UserPlus className="w-6 h-6 text-blue-400" />
-                  <h3 className="text-xl font-bold uppercase tracking-tight">Request Access</h3>
+                  <h3 className="text-xl font-bold uppercase tracking-tight">JOIN THE NETWORK</h3>
                 </div>
-                <p className="text-xs text-slate-400">Select your functional role in the network</p>
+                <p className="text-xs text-slate-400">Select your role in Supply Chain Tracker network</p>
               </div>
               
               <CardContent className="p-8 space-y-6">
@@ -179,8 +179,8 @@ export default function LandingPage() {
                   ))}
                 </div>
 
-                <Button onClick={handleRegister} disabled={requesting} className="w-full bg-blue-600 hover:bg-slate-900 py-8 rounded-2xl font-black text-lg shadow-xl uppercase transition-all">
-                  {requesting ? "Processing..." : "Join the Network"}
+                <Button onClick={handleRegister} disabled={requesting} className="w-full bg-blue-600 hover:bg-slate-900 py-7 rounded-2xl font-black text-lg shadow-xl uppercase transition-all">
+                  {requesting ? "Processing..." : "Send Request" }
                 </Button>
               </CardContent>
             </Card>
