@@ -2,7 +2,10 @@
 
 Este documento resume la experiencia técnica y estratégica de utilizar **Gemini Pro** como herramienta de IA para el desarrollo integral de la DApp de Trazabilidad en Cadena de Suministro ("Supply Chain Tracker").
 
+
 <img width="745" height="444" alt="SupplyChainTracker_LandingPage" src="https://github.com/user-attachments/assets/77191eab-718b-44ed-8216-d538caeedc3f" />
+
+Video presentación: https://www.youtube.com/watch?v=Tw4qRsqJJ_8
 
 
 ## 1. Retrospectiva del uso de la IA, Gemini Pro como herramienta
